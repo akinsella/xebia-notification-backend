@@ -8,8 +8,6 @@ if !config
 		name: 'xebia-mobile-backend',
 		uri: ['xebia-notification-backend.helyx.org'],
 		mongoConfig:
-			name: 'xebia-notification-backend-mongodb',
-			credentials:
 			hostname: 'localhost',
 			port: 27017,
 	#		username: 'xebia-mobile-backend'
