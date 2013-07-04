@@ -4,17 +4,23 @@ _ = underscore._
 if !config
 	localConfig =
 		hostname: 'localhost',
-		port: 8000,
-		name: 'xebia-mobile-backend',
+		port: 9090,
+		appname: 'xebia-notification-backend',
 		uri: ['xebia-notification-backend.helyx.org'],
-		mongoConfig:
+		mongo:
+			dbname: 'xebia-notification-backend'
 			hostname: 'localhost',
 			port: 27017,
-	#		username: 'xebia-mobile-backend'
+	#		username: 'xebia-notification-backend'
 	#		password: 'Password123'
 
 	config = _.extend({}, localConfig)
 
 module.exports =
-	confif: config
+	hostname: config.hostname,
+	port: config.port,
+	appname: config.appname,
+	uri: config.uri,
+	mongo: config.mongo
+
 

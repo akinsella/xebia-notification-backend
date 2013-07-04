@@ -51,9 +51,9 @@ ectRenderer = ECT({
   root: "views"
 });
 
-console.log("Application Name: " + config.cf.app.name);
+console.log("Application Name: " + config.appname);
 
-console.log("Env: " + (JSON.stringify(config.cf)));
+console.log("Env: " + (JSON.stringify(config)));
 
 require('./auth');
 
@@ -70,7 +70,7 @@ cacheMiddleware = function(seconds) {
 
 app.configure(function() {
   console.log("Environment: " + (app.get('env')));
-  app.set('port', config.cf.port || process.env.PORT || 8000);
+  app.set('port', config.port || process.env.PORT || 9090);
   app.set('views', "" + __dirname + "/views");
   app.set('view engine', 'ect');
   app.engine('.ect', ectRenderer.render);
@@ -92,14 +92,14 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.cookieParser());
   app.use(express.session({
-    secret: config.cf.app.instance_id,
+    secret: process.env.SECRET,
     maxAge: new Date(Date.now() + 3600000),
     store: new MongoStore({
-      db: config.mongoConfig.credentials.name,
-      host: config.mongoConfig.credentials.host,
-      port: config.mongoConfig.credentials.port,
-      username: config.mongoConfig.credentials.username,
-      password: config.mongoConfig.credentials.password,
+      db: config.mongo.dbname,
+      host: config.mongo.hostname,
+      port: config.mongo.port,
+      username: config.mongo.username,
+      password: config.mongo.password,
       collection: "sessions",
       auto_reconnect: true
     })
@@ -107,7 +107,6 @@ app.configure(function() {
   app.use(express.logger());
   app.use(express.methodOverride());
   app.use(allowCrossDomain());
-  app.set('running in cloud', config.cf.cloud);
   app.use(requestLogger());
   app.use(passport.initialize());
   app.use(passport.session());
